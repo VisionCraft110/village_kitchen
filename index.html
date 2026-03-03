@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Village Kitchen</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+body { 
+  font-family: Arial, sans-serif; 
+  margin:0; padding:0;
+  background: url('htl.png') no-repeat center center/cover;
+  background-attachment: fixed;
+  min-height:100vh;
+}
+  background:rgba(255,255,255,0.25);
+  z-index:-1;
+}
+/* ---------- MUGGULU BACKGROUND ---------- */
+.muggulu{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35) 2px, transparent 3px),
+    radial-gradient(circle at 80% 40%, rgba(255,255,255,0.35) 2px, transparent 3px),
+    radial-gradient(circle at 40% 70%, rgba(255,255,255,0.35) 2px, transparent 3px);
+  background-size:60px 60px;
+}
+
+/* ---------- WOOD BUTTON ---------- */
+.wood-btn{
+  background:url("images (53).jpeg") center/cover no-repeat;
+  border:none;
+  padding:14px 42px;
+  font-size:16px;
+  font-weight:600;
+  color:white;
+text-shadow:2px 4px 8px black;
+  cursor:pointer;
+  border-radius:14px;
+text-decoration:none;
+  box-shadow:
+    inset 0 3px 5px rgba(255,255,255,0.45),
+    inset 0 -5px 8px rgba(0,0,0,0.35),
+    0 6px 12px rgba(0,0,0,0.4);
+  transition:0.25s ease;
+}
+.wood-btn:hover{
+  transform:translateY(-2px);
+}
+.wood-btn:active{
+  transform:translateY(2px);
+  box-shadow:inset 0 5px 10px rgba(0,0,0,0.5);
+}
+
+.header{
+  background:url("images (51).jpeg") center/cover no-repeat;
+  padding:15px 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+}.header{
+  z-index:1000;
+}
+
+.nav{
+  z-index:999;
+}
+
+.nav a{
+  color:#f5e6c8;
+  margin:0 12px;
+  text-decoration:none;
+  font-weight:500;
+}
+
+.logo img{
+  font-family:'Playfair Display',serif;
+  
+ width:200px;
+  
+  border-radius:8px;
+  text-align:center;
+}
+
+/* TOGGLE ICON */
+.menu-toggle{
+  display:none;
+  font-size:30px;
+  color:#fff;
+  cursor:pointer;
+}
+
+/* ---------- MOBILE ---------- */
+@media(max-width:768px){
+  .menu-toggle{
+    display:block;
+  }
+
+  .nav{
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    background:#4b2e1a;
+    display:none;
+    flex-direction:column;
+    text-align:center;
+    padding:10px 0;
+  }
+
+  .nav a{
+    padding:12px;
+    display:block;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav.show{
+    display:flex;
+  }
+
+  .logo{
+    font-size:20px;
+  }
+}
+/* ---------- HERO ---------- */
+.hero {
+  position: relative;
+  height: 82vh;
+  overflow: hidden;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.45); /* dark overlay */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.wood-btn {
+  display: inline-block;
+  padding: 12px 28px;
+  background:url("wood.jpg");
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  margin-top: 15px;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+color:red;
+  font-size:48px;
+}
+.hero p{
+  margin:12px 0;
+  font-size:18px;
+}
+
+/* ---------- SECTIONS ---------- */
+.section{
+
+
+  padding:60px 20px;
+  text-align:center;
+}
+.section h2{
+  font-family:'Playfair Display',serif;
+  font-size:36px;
+}
+.section p{
+  margin:10px 0 30px;
+}
+
+/* ---------- SPECIALS ---------- */
+.mud{
+background:url("mud.jpg");
+
+}
+.specials{
+top:0px;
+position: relative;
+  display:grid;
+ background:url("mud.jpg"); grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+.card{
+  background:#f6ead1;
+  padding:25px;
+  border-radius:14px;
+}
+.card img{
+  width:100%;
+  border-radius:12px;
+  margin-top:15px;
+}
+
+/* ---------- MENU ---------- */
+.menu-tabs{
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:15px;
+}
+.menu-items{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:25px;
+  margin-top:30px;
+}
+.menu-item{
+  background:#fff;
+  padding:15px;
+  border-radius:14px;
+}
+.menu-item img{
+  width:100%;
+  border-radius:12px;
+}
+
+/* ---------- GALLERY ---------- */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+.gallery img{
+  width:100%;
+  border-radius:14px;
+}
+
+/* ---------- ORDER ---------- */
+.order{
+  background:url("mud.jpg");
+  color:#fff;
+}
+.order .wood-btn{
+  margin:10px;
+}
+
+/* ---------- FOOTER ---------- */
+footer{
+  background:#4b2e1a;
+  color:#f5e6c8;
+  padding:20px;
+  text-align:center;
+  font-size:14px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media(max-width:768px){
+  .hero h1{font-size:34px}
+  header{justify-content:center;text-align:center}
+  .logo{margin:10px 0}
+  .wood-btn{font-size:14px;padding:12px 30px}
+}
+.franchise-popu/* ===== FRANCHISE CARD ===== */
+.franchise-card{
+  background:#5a3a2e;               /* earthy brown */
+  color:#fff;
+  padding:16px;
+  border-radius:18px;
+  margin:22px 12px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  cursor:pointer;
+  box-shadow:0 8px 18px rgba(0,0,0,0.45);
+  transition:0.25s;
+}
+
+.franchise-card:hover{
+  transform:translateY(-3px);
+  background:#6d4c41;
+}
+
+.franchise-icon{
+  width:60px;
+  height:60px;
+  background:#ffb74d;
+  color:#3a1f0f;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:34px;
+  box-shadow:inset 0 4px 6px rgba(255,255,255,0.3);
+}
+
+.franchise-text h3{
+  margin:0;
+  font-size:18px;
+  font-weight:700;
+  letter-spacing:0.3px;
+}
+
+.franchise-text p{
+  margin:4px 0 0;
+  font-size:13px;
+  color:#ffddb3;
+}
+
+/* ===== POPUP BACKDROP ===== */
+/* ===== FRANCHISE BOOKING ===== */
+.franchise-section{
+  background:#ffffff;
+  margin:30px 14px;
+  padding:24px 20px;
+  border-radius:16px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.12);
+}
+
+.franchise-section h2{
+  margin:0;
+  font-size:22px;
+  font-weight:700;
+  color:#222;
+}
+
+.franchise-section p{
+  margin:6px 0 18px;
+  font-size:14px;
+  color:#666;
+}
+
+/* FORM */
+.franchise-form{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.franchise-form input{
+  padding:14px 16px;
+  font-size:15px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  outline:none;
+}
+
+.franchise-form input:focus{
+  border-color:#ff9800;
+}
+
+/* BUTTON */
+.franchise-form button{
+  margin-top:8px;
+  padding:14px;
+  font-size:16px;
+  font-weight:700;
+  border:none;
+  border-radius:14px;
+  background:#ff9800;
+  color:#fff;
+  cursor:pointer;
+}
+
+.franchise-form button:hover{
+  background:#fb8c00;
+}
+
+/* ===============================
+   HEADING
+================================ */
+.booking-box h2{
+  text-align:center;
+  font-size:22px;
+  font-weight:700;
+  margin-bottom:16px;
+  color:#ffcc80;
+}
+
+/* ===============================
+   INPUT FIELDS
+================================ */
+.booking-box input,
+.booking-box textarea{
+  width:100%;
+  padding:13px 14px;
+  margin-bottom:12px;
+  border:none;
+  border-radius:14px;
+  font-size:14px;
+  background:#f5f5f5;
+  outline:none;
+}
+
+.booking-box textarea{
+  resize:none;
+  height:90px;
+}
+
+/* focus effect */
+.booking-box input:focus,
+.booking-box textarea:focus{
+  box-shadow:0 0 0 2px #ffb74d;
+}
+
+/* ===============================
+   SUBMIT BUTTON
+================================ */
+.booking-box button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:16px;
+  background:#43a047;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.booking-box button:hover{
+  background:#388e3c;
+}
+
+/* ===============================
+   CANCEL / CLOSE TEXT
+================================ */
+.booking-box .cancel{
+  display:block;
+  margin-top:12px;
+  text-align:center;
+  font-size:14px;
+  color:#ffab91;
+  cursor:pointer;
+}
+
+/* ===============================
+   MOBILE SMALL SCREENS
+================================ */
+@media(max-width:360px){
+  .booking-box{
+    padding:18px 16px;
+  }
+  .booking-box h2{
+    font-size:20px;
+  }
+}
+</style>
+</head>
+<!-- FRANCHISE BOOKING SECTION -->
+
+<body class="muggulu">
+
+<header class="header">
+  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+  <nav class="nav left">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+     <a href="menu.html">Menu</a>
+    <a href="contact.html">Contact</a>
+ <a href="#franchisesection">franchise</a>
+  </nav>
+<div class="logo">
+  <img src="logo.png" alt="">
+  </div>
+</header>
+
+<section class="hero muggulu">
+  <div class="slider">
+    <img src="1.jpg" class="slide active">
+    <img src="2.jpg" class="slide">
+    <img src="3.jpg" class="slide">
+  </div>
+
+  <div class="hero-content">
+    <h1>Welcome to Village Kitchen</h1>
+    <p>Authentic Village Delights</p>
+    <p>Savor the Flavor of the Countryside</p>
+    <a href="menu.html" class="wood-btn">Order Now</a>
+  </div>
+</section>
+
+<section class="section muggulu">
+
+  <div class="specials">
+    <div class="card">
+      <h3>Our Specialities</h3>
+      <p>Traditional Village Recipes Cooked with Love</p>
+      <img src="2.jpg">
+    </div>
+    <div class="card">
+      <h3>Today's Special</h3>
+      <p><b>Grandma’s Mutton Curry</b></p>
+      <img src="12.jpg">
+      <br><br>
+      <button  <a href="menu.html" class="wood-btn">order now</a>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="section">
+  <h2>Explore Our Menu</h2>
+  <p>Delicious Village Cuisine</p>
+
+  <div class="menu-tabs">
+    <button class="wood-btn">Starters</button>
+    <button class="wood-btn">Main Course</button>
+    <button class="wood-btn">Beverages</button>
+    <button class="wood-btn">Desserts</button>
+  </div>
+
+  <div class="menu-items">
+    <div class="menu-item"><img src="11.jpg"><h4>VEG THALI</h4></div>
+    <div class="menu-item"><img src="12.jpg"><h4>SPECIAL MUTTON</h4></div>
+    <div class="menu-item"><img src="14.jpg"><h4>SWEET PONGAL</h4></div>
+    <div class="menu-item"><img src="15.jpg"><h4>CHICKEN BIRYANI</h4></div>
+  </div>
+
+  <br>
+  <a href="menu.html" class="wood-btn">View Full Menu</a>
+</section>
+
+<section class="section muggulu">
+  <h2>Gallery</h2>
+  <p>A Glimpse of Village Life</p>
+
+  <div class="gallery">
+    <img src="17.jpg">
+    <img src="15.jpg">
+    <img src="16.jpg">
+    <img src="18.jpg">
+  </div>
+</section>
+<section class="franchise-section">
+
+  <h2>Franchise Booking</h2>
+  <p>Interested in starting our restaurant franchise? Share your details.</p>
+
+  <div class="franchise-form">
+    <input type="text" id="fname" placeholder="Full Name">
+    <input type="tel" id="fmobile" placeholder="Mobile Number">
+    <input type="text" id="fcity" placeholder="City / Location">
+    <input type="text" id="finvest" placeholder="Expected Investment">
+
+    <button onclick="sendFranchiseWA()">Send on WhatsApp</button>
+  </div>
+
+</section>
+</div>
+<section class="section order">
+  <h2>Order Online Now!</h2>
+  <p>Enjoy the Taste of Tradition at Your Home</p>
+  <a href="menu.html" class="wood-btn">View Full Menu</a>
+  <a href="contact.html" class="wood-btn">call</a>
+</section>
+
+<footer>
+  🚚 Free Delivery | 🌿 Fresh Ingredients | ⏰ 11 AM – 10 PM
+</footer>
+<script>
+function sendFranchiseWA(){
+  let name = document.getElementById("fname").value.trim();
+  let mobile = document.getElementById("fmobile").value.trim();
+  let city = document.getElementById("fcity").value.trim();
+  let invest = document.getElementById("finvest").value.trim();
+
+  if(!name || !mobile || !city){
+    alert("Please fill Name, Mobile and City");
+    return;
+  }
+
+  let message =
+`Franchise Booking Enquiry
+
+Name: ${name}
+Mobile: ${mobile}
+City: ${city}
+Investment: ${invest || "Not specified"}
+
+Please share franchise details.`;
+
+  let phone = "+919848888076"; // 🔴 CHANGE OWNER NUMBER
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
+}</script>
+<script>
+  let slides = document.querySelectorAll(".slide");
+  let index = 0;
+
+  function showNextSlide() {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }
+
+  setInterval(showNextSlide, 3500); // 3.5 seconds
+</script>
+<script>
+function toggleMenu(){
+  const leftNav = document.querySelector(".nav.left");
+  
+  leftNav.classList.toggle("show");
+  
+}
+
+/* Auto close menu when link clicked (mobile UX) */
+document.querySelectorAll(".nav a").forEach(link=>{
+  link.addEventListener("click", ()=>{
+    document.querySelectorAll(".nav").forEach(nav=>{
+      nav.classList.remove("show");
+    });
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Village Kitchen Cart</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:url("cart.jpeg") center/cover no-repeat fixed;
+}
+
+/* MAIN LAYOUT */
+
+/* CONTENT AREA */
+.content{
+  flex:1;
+  padding:20px;
+  max-width:420px;
+  margin:auto;
+}
+
+/* HEADER */
+.header{
+  text-align:center;
+  font-size:24px;
+  font-weight:700;
+  color:#f5f5f5;
+  margin-bottom:20px;
+}
+
+.header i{
+  color:#a1887f;
+  margin-right:8px;
+}
+
+/* CART ITEM */
+.cart-item{
+  background:rgba(50,40,35,0.95);
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  color:#fff;
+  box-shadow:0 6px 18px rgba(0,0,0,0.5);
+}
+
+.item-name{
+  font-weight:600;
+  font-size:14px;
+}
+
+.item-price{
+  font-size:12px;
+  color:#d7ccc8;
+  margin-top:4px;
+}
+
+/* QTY */
+.qty{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.qty button{
+  width:28px;
+  height:28px;
+  border:none;
+  border-radius:50%;
+  background:#a1887f;
+  color:#2e2a24;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.qty span{
+  width:18px;
+  text-align:center;
+}
+
+/* TOTAL */
+.total{
+  background:rgba(60,50,45,0.95);
+  padding:16px;
+  border-radius:14px;
+  text-align:center;
+  font-size:18px;
+  font-weight:700;
+  color:#f5f5f5;
+  margin:18px 0;
+}
+
+/* ORDER TYPE */
+.blocks{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+}
+
+.block{
+  background:#4e342e;
+  color:#fff;
+  height:80px;
+  border-radius:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+.block i{
+  font-size:18px;
+  margin-bottom:6px;
+}
+
+.block.active{
+  background:#a1887f;
+  color:#2e2a24;
+  transform:scale(1.05);
+}
+
+/* BOTTOM ACTION AREA */
+.action-area{
+  background:#2e2a24;
+  padding:14px;
+  box-shadow:0 -4px 10px rgba(0,0,0,0.5);
+}
+
+button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:14px;
+  font-size:15px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.upi{
+  background:#6d4c41;
+  color:#fff;
+}
+
+.order{
+  background:#a1887f;
+  color:#2e2a24;
+  margin-top:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="main-wrapper">
+
+  <div class="content">
+
+    <div class="header">
+      <i class="fa-solid fa-utensils"></i> Your Cart
+    </div>
+
+    <div id="cartList"></div>
+
+    <div class="total">
+      <i class="fa-solid fa-receipt"></i>
+      Total ₹<span id="total">0</span>
+    </div>
+
+    <div class="blocks">
+      <div class="block" onclick="selectType(this,'delivery')">
+        <i class="fa-solid fa-truck"></i>
+        Delivery
+      </div>
+      <div class="block" onclick="selectType(this,'takeaway')">
+        <i class="fa-solid fa-bag-shopping"></i>
+        Takeaway
+      </div>
+      <div class="block" onclick="selectType(this,'dinein')">
+        <i class="fa-solid fa-chair"></i>
+        Dine-In
+      </div>
+    </div>
+
+  </div>
+
+  <div class="action-area">
+    <button class="upi" id="upiBtn" onclick="openUPI()" style="display:none">
+      <i class="fa-solid fa-qrcode"></i> Pay via UPI
+    </button>
+
+    <button class="order" id="orderBtn" onclick="sendWhatsApp()" style="display:none">
+      <i class="fa-brands fa-whatsapp"></i> Place Order
+    </button>
+  </div>
+
+</div>
+
+<script>
+
+const CART_KEY="restaurant_cart";
+let cart=JSON.parse(localStorage.getItem(CART_KEY))||[];
+let orderType="";
+let paid=false;
+
+/* ================= LOAD CART ================= */
+function loadCart(){
+  let box=document.getElementById("cartList");
+  let total=0;
+  box.innerHTML="";
+
+  if(cart.length===0){
+    box.innerHTML="<p style='text-align:center;color:#ccc'>Your cart is empty</p>";
+  }
+
+  cart.forEach((i,idx)=>{
+    total+=i.price*i.qty;
+    box.innerHTML+=`
+    <div class="cart-item">
+      <div>
+        <div class="item-name">${i.name}</div>
+        <div class="item-price">₹${i.price}</div>
+      </div>
+      <div class="qty">
+        <button onclick="changeQty(${idx},-1)">−</button>
+        <span>${i.qty}</span>
+        <button onclick="changeQty(${idx},1)">+</button>
+      </div>
+    </div>`;
+  });
+
+  document.getElementById("total").innerText=total;
+}
+loadCart();
+
+/* ================= SHOW TABLE NUMBER ================= */
+let tableNo = localStorage.getItem("table_no");
+if(tableNo){
+  orderType="dinein";  // auto set dinein
+  document.getElementById("orderBtn").style.display="block";
+
+  const tableBox=document.createElement("div");
+  tableBox.style.background="#6d4c41";
+  tableBox.style.color="#fff";
+  tableBox.style.padding="10px";
+  tableBox.style.borderRadius="10px";
+  tableBox.style.marginBottom="15px";
+  tableBox.style.textAlign="center";
+  tableBox.innerHTML="🍽️ Table No: "+tableNo;
+
+  document.querySelector(".content").prepend(tableBox);
+}
+
+/* ================= CHANGE QTY ================= */
+function changeQty(i,val){
+  cart[i].qty+=val;
+  if(cart[i].qty<=0) cart.splice(i,1);
+  localStorage.setItem(CART_KEY,JSON.stringify(cart));
+  loadCart();
+}
+
+/* ================= SELECT TYPE ================= */
+function selectType(el,type){
+  document.querySelectorAll(".block").forEach(b=>b.classList.remove("active"));
+  el.classList.add("active");
+  orderType=type;
+
+  document.getElementById("upiBtn").style.display="none";
+  document.getElementById("orderBtn").style.display="none";
+
+  if(type==="delivery"){
+    paid=false;
+    document.getElementById("upiBtn").style.display="block";
+  }
+
+  if(type==="takeaway"){
+  paid=false;
+  document.getElementById("upiBtn").style.display="block";
+}
+
+  if(type==="dinein"){
+    window.location.href="tables.html";
+  }
+}
+
+/* ================= UPI ================= */
+function openUPI(){
+  let amount=document.getElementById("total").innerText;
+  let upiId="9848888076-2@ybl";
+  let name="Village Kitchen";
+
+  window.location.href=`upi://pay?pa=${upiId}&pn=${name}&am=${amount}&cu=INR`;
+
+  setTimeout(()=>{
+    paid=true;
+    document.getElementById("upiBtn").style.display="none";
+    document.getElementById("orderBtn").style.display="block";
+  },2000);
+}
+
+/* ================= WHATSAPP ================= */
+function sendWhatsApp(){
+
+  if((orderType==="delivery" || orderType==="takeaway") && !paid){
+  alert("Complete Payment First");
+  return;
+}
+
+  let msg="🛒 Order Details\n\n";
+
+  cart.forEach(i=>{
+    msg+=`${i.name} x ${i.qty}\n`;
+  });
+
+  msg+=`\nTotal ₹${document.getElementById("total").innerText}\n`;
+  msg+=`Order Type: ${orderType}\n`;
+
+  let tableNo = localStorage.getItem("table_no");
+  if(orderType==="dinein" && tableNo){
+    msg+=`Table No: ${tableNo}\n`;
+  }
+
+  let phone="9848888076";
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`);
+
+  // optional: clear table after order
+  localStorage.removeItem("table_no");
+}
+
+</script>
+
+</body>
+</html>
